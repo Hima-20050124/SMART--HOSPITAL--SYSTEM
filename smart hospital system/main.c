@@ -35,33 +35,60 @@ typedef struct {
 
 
               };
+
+
+     int bedOccupancy[4][20];
+
+     void initializeData()
+{
+    for(int i=0 ; i<4 ;i++)
+    {
+        for(int j=0 ; j<20 ; j++)
+        {
+            bedOccupancy[i][j] = 0;
+        }
+    }
+}
+
+
+void displayBedOccupancy()
+{
+    int i, j;
+
+    printf("--- BED OCCUPANCY ---\n");
+
+    for (i = 0; i < 4; i++)
+    {
+        printf("\nWard %d - %s\n",
+               wards[i].wardID,
+               wards[i].wardName);
+
+        for (j = 0; j < wards[i].totalBedCapacity; j++)
+        {
+            if (bedOccupancy[i][j] == 0)
+            {
+                printf("Bed %d : Available\n", j + 1);
+            }
+            else
+            {
+                printf("Bed %d : Occupied\n", j + 1);
+            }
+        }
+    }
+}
+
+
+
+
+
+
 int main()
 {
+    initializeData();
 
     printf("\t--- WELCOME TO SMART-HOSPITAL-SYSTEM ---\n\n");
 
-
-       printf("--- SPECIALTIES ---\n");
-
-    for (int i = 0; i < 4; i++)
-    {
-        printf("%d. %s - LKR %.2f\n\n",
-               specialties[i].specialtyID,
-               specialties[i].specialtyName,
-               specialties[i].baseConsultationFee);
-    }
-
-
-      printf("--- WARDS ---\n");
-
-    for (int i = 0; i < 4; i++)
-    {
-        printf("%d. %s - LKR %.2f per day\n\n",
-               wards[i].wardID,
-               wards[i].wardName,
-               wards[i].dailyBedRate);
-    }
-
+     displayBedOccupancy();
 
     return 0;
 }
