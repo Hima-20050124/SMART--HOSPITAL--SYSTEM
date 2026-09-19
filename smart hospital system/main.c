@@ -48,7 +48,7 @@ typedef struct {
     int wardID;
     int isAdmitted;
     int daysAdmitted;
-
+    int bedNumber;
     double finalBill;
     };
 
@@ -69,8 +69,36 @@ typedef struct {
 }
 
 
+int allocateBed(int wardID)
+{
+    int wardIndex = wardID - 1;
+    int i;
+
+    if (wardIndex < 0 || wardIndex >= 4)
+    {
+        return -1;
+    }
+
+    for (i = 0; i < wards[wardIndex].totalBedCapacity; i++)
+    {
+        if (bedOccupancy[wardIndex][i] == 0)
+        {
+            bedOccupancy[wardIndex][i] = 1;
+
+            return i + 1;
+        }
+    }
+
+    return -1;
+}
+
+
+
+
+
 void registerPatient()
 {
+     int bedNumber;
 
     printf("Patient Registration");
 
@@ -99,6 +127,27 @@ void registerPatient()
 
         printf("Days Admitted(integer) : \n");
          scanf("%d",&patients[count].daysAdmitted);
+
+         bedNumber = allocateBed(patients[count].wardID);
+
+          if (bedNumber != -1)
+        {
+            patients[count].bedNumber = bedNumber;
+
+            printf("\nBed allocated successfully!\n");
+            printf("Bed Number: %d\n", bedNumber);
+        }
+        else
+        {
+            printf("\nNo available beds in this ward.\n");
+
+            patients[count].isAdmitted = 0;
+            patients[count].wardID = 0;
+            patients[count].daysAdmitted = 0;
+            patients[count].bedNumber = 0;
+        }
+
+
     }
 
     else
