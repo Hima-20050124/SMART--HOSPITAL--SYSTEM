@@ -257,7 +257,7 @@ void priorityOfPatients()
 
 void displayRegisteredPatients()
 {
-        printf("       PATIENT PRIORITY ORDER\n");
+        printf(" \n---------------PATIENT PRIORITY ORDER--------------\n");
         printf("%-10s %-25s %-15s\n","ID", "Name", "Urgency Level");
         for(int i=0; i< count ;i++)
         {
@@ -269,7 +269,10 @@ void registerPatient()
 {
      int bedNumber;
 
-            printf("\n\tPatient Registration\n\n");
+
+
+            printf("\n\t---Patient Registration---\n");
+
 
             printf("Enter Patient name :  \n");
                 scanf(" %[^\n]",patients[count].name);
@@ -277,62 +280,123 @@ void registerPatient()
             printf("Enter Patient ID :  \n");
                 scanf("%d",&patients[count].id);
 
-            printf("Enter Patient Age  :  \n");
-                scanf("%d",&patients[count].age);
+            do
+        {
 
-            printf("Enter Triage Level(1=Normal,2=Urgent,3=Critical) :  \n");
-                scanf("%d",&patients[count].triageLevel);
+            printf("Enter Patient Age (0-120): \n");
+                scanf("%d", &patients[count].age);
 
-            printf("Enter Specialty ID(1-4):  \n");
-                scanf("%d",&patients[count].specialtyID);
+        if (patients[count].age < 0 || patients[count].age > 120)
+        {
+            printf("Invalid age! Please enter again.\n");
+        }
 
-            printf("Is admitted to the Ward ?(1=Yes,0=NO)  :  \n");
-                scanf("%d",&patients[count].isAdmitted);
+    } while (patients[count].age < 0 || patients[count].age > 120);
+
+
+            do
+      {
+            printf("Enter Triage Level (1=Normal, 2=Urgent, 3=Critical): \n");
+                scanf("%d", &patients[count].triageLevel);
+
+        if (patients[count].triageLevel < 1 || patients[count].triageLevel > 3)
+        {
+            printf("Invalid triage level! Please enter 1, 2 or 3.\n");
+        }
+
+    } while (patients[count].triageLevel < 1 || patients[count].triageLevel > 3);
+
+            do
+      {
+            printf("Enter Specialty ID (1-4): \n");
+                scanf("%d", &patients[count].specialtyID);
+
+        if (patients[count].specialtyID < 1 || patients[count].specialtyID > 4)
+        {
+            printf("Invalid specialty ID! Please enter 1-4.\n");
+        }
+
+    } while (patients[count].specialtyID < 1 || patients[count].specialtyID > 4);
+
+
+    do
+    {
+            printf("Is admitted to the Ward? (1=Yes, 0=No): \n");
+                scanf("%d", &patients[count].isAdmitted);
+
+        if (patients[count].isAdmitted != 0 && patients[count].isAdmitted != 1)
+        {
+            printf("Invalid choice! Please enter 1 or 0.\n");
+        }
+
+    } while (patients[count].isAdmitted != 0 && patients[count].isAdmitted != 1);
+
 
     if (patients[count].isAdmitted == 1)
     {
-            printf("Enter the ward ID : \n");
-                scanf("%d",&patients[count].wardID);
+             do
+        {
+            printf("Enter Ward ID (1-4): ");
+            scanf("%d", &patients[count].wardID);
 
-            printf("Days Admitted(integer) : \n");
-                scanf("%d",&patients[count].daysAdmitted);
+            if (patients[count].wardID < 1 || patients[count].wardID > 4)
+            {
+                printf("Invalid ward ID! Please enter 1-4.\n");
+            }
 
-         bedNumber = allocateBed(patients[count].wardID);
+        } while (patients[count].wardID < 1 || patients[count].wardID > 4);
+
+
+            do
+        {
+            printf("Enter Days Admitted: ");
+            scanf("%d", &patients[count].daysAdmitted);
+
+            if (patients[count].daysAdmitted <= 0)
+            {
+                printf("Invalid number of days!\n");
+            }
+
+        } while (patients[count].daysAdmitted <= 0);
+
+
+           bedNumber = allocateBed(patients[count].wardID);
 
           if (bedNumber != -1)
         {
-            patients[count].bedNumber = bedNumber;
+             patients[count].bedNumber = bedNumber;
 
-            printf("\nBed allocated successfully!\n");
-            printf("Bed Number: %d\n", bedNumber);
+                printf("\nBed allocated successfully!\n");
+                printf("Bed Number: %d\n", bedNumber);
         }
-        else
+          else
         {
-            printf("\nNo available beds in this ward.\n");
+                printf("\nNo available beds in this ward.\n");
 
-            patients[count].isAdmitted = 0;
+                patients[count].isAdmitted = 0;
+                patients[count].wardID = 0;
+                patients[count].daysAdmitted = 0;
+                patients[count].bedNumber = 0;
+        }
+
+   }
+
+        else
+      {
             patients[count].wardID = 0;
             patients[count].daysAdmitted = 0;
             patients[count].bedNumber = 0;
-        }
-
-    }
-
-    else
-    {
-       patients[count].wardID = 0;
-        patients[count].daysAdmitted = 0;
-    }
+      }
 
 }
 
 void generateReport()
 {
-    int normal = 0;
-    int urgent = 0;
-    int critical = 0;
-    int i;
-    int j;
+     int normal = 0;
+     int urgent = 0;
+     int critical = 0;
+     int i;
+     int j;
 
     double totalRevenue = 0;
     double totalDiscount = 0;
