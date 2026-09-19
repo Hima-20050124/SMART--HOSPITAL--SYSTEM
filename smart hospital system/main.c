@@ -39,7 +39,7 @@ typedef struct {
 
      int bedOccupancy[4][20];
 
-     struct Patient{
+    struct Patient{
     char name[50];
     int id;
     int age;
@@ -52,8 +52,12 @@ typedef struct {
     int waitingTime;
 
     double finalBill;
+    double grossTotal;
+    double discount;
+
     double emergencySurcharge;
     double wardCost;
+
     };
 
     struct Patient patients[100];
@@ -168,6 +172,40 @@ void calculateWardCost()
      printf("Ward Stay Cost: LKR %.2f\n",patients[count].wardCost);
 }
 
+
+void calculateBill()
+{
+    double totalRevenue , totalDiscount;
+    int index =patients[count].specialtyID -1;
+    double finalPayableAmount;
+
+       if (index < 0 || index >= 4)
+    {
+        patients[count].grossTotal = 0;
+        patients[count].discount = 0;
+        patients[count].finalBill = 0;
+        return;
+    }
+
+    patients[count].grossTotal = specialties[index].baseConsultationFee + patients[count].emergencySurcharge + patients[count].wardCost;
+
+    if (patients[count].age<5 || patients[count].age>65)
+    {
+        patients[count].discount = 0.15*patients[count].grossTotal;
+    }
+    else
+    {
+        patients[count].discount = 0;
+    }
+
+    finalPayableAmount = patients[count].grossTotal - patients[count].discount;
+    finalPayableAmount = patients[count].finalBill;
+
+     totalRevenue += finalPayableAmount;
+
+     totalDiscount += patients[count].discount;
+}
+
 void registerPatient()
 {
      int bedNumber;
@@ -219,7 +257,6 @@ void registerPatient()
             patients[count].bedNumber = 0;
         }
 
-
     }
 
     else
@@ -230,6 +267,7 @@ void registerPatient()
         calculateWaitingTime();
         calculateSurcharge();
         calculateWardCost();
+        calculateBill();
 }
 
 
