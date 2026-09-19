@@ -238,37 +238,55 @@ void displayBill()
             printf("\tEstimated Waiting Time   : %.2f\n\n",patients[count].waitingTime);
 
 }
+void priorityOfPatients()
+{
+    struct Patient temp;
+
+    for (int i = 0; i < count - 1; i++)
+    {
+        for (int j = i + 1; j < count; j++)
+        {
+            if (patients[i].triageLevel < patients[j].triageLevel)
+            {
+                temp = patients[i];
+                patients[i] = patients[j];
+                patients[j] = temp;
+            }
+        }
+    }
+}
+
 void registerPatient()
 {
      int bedNumber;
 
-        printf("Patient Registration");
+            printf("Patient Registration");
 
-        printf("Enter Patient name :  \n");
-            scanf(" %[^\n]",patients[count].name);
+            printf("Enter Patient name :  \n");
+                scanf(" %[^\n]",patients[count].name);
 
-        printf("Enter Patient ID :  \n");
-            scanf("%d",&patients[count].id);
+            printf("Enter Patient ID :  \n");
+                scanf("%d",&patients[count].id);
 
-        printf("Enter Patient Age  :  \n");
-            scanf("%d",&patients[count].age);
+            printf("Enter Patient Age  :  \n");
+                scanf("%d",&patients[count].age);
 
-        printf("Enter Triage Level(1=Normal,2=Urgent,3=Critical) :  \n");
-            scanf("%d",&patients[count].triageLevel);
+            printf("Enter Triage Level(1=Normal,2=Urgent,3=Critical) :  \n");
+                scanf("%d",&patients[count].triageLevel);
 
-        printf("Enter Specialty ID:  \n");
-            scanf("%d",&patients[count].specialtyID);
+            printf("Enter Specialty ID:  \n");
+                scanf("%d",&patients[count].specialtyID);
 
-        printf("Is admitted to the Ward ?(1=Yes,0=NO)  :  \n");
-            scanf("%d",&patients[count].isAdmitted);
+            printf("Is admitted to the Ward ?(1=Yes,0=NO)  :  \n");
+                scanf("%d",&patients[count].isAdmitted);
 
     if (patients[count].isAdmitted == 1)
     {
-        printf("Enter the ward ID : \n");
-            scanf("%d",&patients[count].wardID);
+            printf("Enter the ward ID : \n");
+                scanf("%d",&patients[count].wardID);
 
-        printf("Days Admitted(integer) : \n");
-            scanf("%d",&patients[count].daysAdmitted);
+            printf("Days Admitted(integer) : \n");
+                scanf("%d",&patients[count].daysAdmitted);
 
          bedNumber = allocateBed(patients[count].wardID);
 
@@ -276,12 +294,12 @@ void registerPatient()
         {
             patients[count].bedNumber = bedNumber;
 
-        printf("\nBed allocated successfully!\n");
-        printf("Bed Number: %d\n", bedNumber);
+            printf("\nBed allocated successfully!\n");
+            printf("Bed Number: %d\n", bedNumber);
         }
         else
         {
-        printf("\nNo available beds in this ward.\n");
+            printf("\nNo available beds in this ward.\n");
 
             patients[count].isAdmitted = 0;
             patients[count].wardID = 0;
