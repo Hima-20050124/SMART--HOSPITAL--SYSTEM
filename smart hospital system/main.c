@@ -330,13 +330,95 @@ void registerPatient()
         calculateBill();
 }
 
+void generateReport()
+{
+    int normal = 0;
+    int urgent = 0;
+    int critical = 0;
+    int i;
+    int j;
+
+    double totalRevenue = 0;
+    double totalDiscount = 0;
+
+     for(i=0; i<count ;i++)
+    {
+      if (patients[i].triageLevel == 3)
+        {
+            critical++;
+        }
+        else if (patients[i].triageLevel == 2)
+        {
+            urgent++;
+        }
+        else if (patients[i].triageLevel == 1)
+        {
+            normal++;
+        }
+
+        totalRevenue += patients[i].finalBill;
+        totalDiscount += patients[i].discount;
+    }
+
+        printf("\n\n\t--HOSPITAL PERFORMANCE REPORT--\n");
+        printf("\tPatient Count     : %d\n\n",count);
+        printf("\tNormal Patients   : %d\n\n",normal);
+
+        printf("\tUrgent Patients   : %d\n\n",urgent);
+
+        printf("\tCritical Patients : %d\n\n",critical);
+
+        printf("\tTotal Revenue Earned : LKR%.2f\n\n ",totalRevenue);
+
+        printf("\tTotal Discount       : LKR%.2f\n\n",totalDiscount);
+
+
+    for( i=0;i<4;i++)
+    {
+       int  occupied = 0;
+        for( j=0;j<wards[i].totalBedCapacity;j++)
+        {
+            if (bedOccupancy[i][j] == 1)
+            {
+                occupied++;
+            }
+        }
+
+
+        printf("\n%-20s : %d/%d beds occupied\n\n",wards[i].wardName,occupied,wards[i].totalBedCapacity);
+    }
+
+
+
+     if(count > 0)
+    {
+        int highestIndex = 0;
+
+        for( i = 1; i<count ;i++)
+        {
+            if (patients[i].finalBill > patients[highestIndex].finalBill)
+            {
+                highestIndex = i ;
+
+            }
+        }
+
+        printf("\n\tHIGHEST PAYING PATIENT\n\n");
+
+        printf("Highest Paying Patient  : %s\n\n",patients[highestIndex].name);
+
+        printf("Highest Patient Bill    : LKR %.2f\n\n",patients[highestIndex].finalBill);
+    }
+
+}
+
 
 
 int main()
 {
     initializeData();
 
-    printf("\t--- WELCOME TO SMART-HOSPITAL-SYSTEM ---\n\n");
+    printf("\t--- WELCOME TO SMART-HOSPITAL-SYSTEM ---\n");
 
     registerPatient();
     count++;
@@ -349,7 +431,7 @@ int main()
     displayRegisteredPatients();
 
 
-
+    generateReport();
 
     return 0;
 }
