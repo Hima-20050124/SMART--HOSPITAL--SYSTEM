@@ -50,8 +50,10 @@ typedef struct {
     int daysAdmitted;
     int bedNumber;
     int waitingTime;
+
     double finalBill;
     double emergencySurcharge;
+    double wardCost;
     };
 
     struct Patient patients[100];
@@ -139,6 +141,33 @@ void calculateSurcharge()
 
 }
 
+void calculateWardCost()
+{
+
+      if (patients[count].isAdmitted == 1)
+     {
+        int index = patients[count].wardID -1;
+        patients[count].wardCost = patients[count].daysAdmitted*wards[index].dailyBedRate;
+
+
+        if (index >= 0 && index < 4)
+        {
+            patients[count].wardCost = patients[count].daysAdmitted *wards[index].dailyBedRate;
+        }
+        else
+        {
+            patients[count].wardCost = 0;
+        }
+     }
+
+    else
+    {
+       patients[count].wardCost = 0;
+    }
+
+     printf("Ward Stay Cost: LKR %.2f\n",patients[count].wardCost);
+}
+
 void registerPatient()
 {
      int bedNumber;
@@ -198,8 +227,9 @@ void registerPatient()
        patients[count].wardID = 0;
         patients[count].daysAdmitted = 0;
     }
-    calculateWaitingTime();
-    calculateSurcharge();
+        calculateWaitingTime();
+        calculateSurcharge();
+        calculateWardCost();
 }
 
 
