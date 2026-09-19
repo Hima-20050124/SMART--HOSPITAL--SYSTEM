@@ -198,45 +198,77 @@ void calculateBill()
         patients[count].discount = 0;
     }
 
-    finalPayableAmount = patients[count].grossTotal - patients[count].discount;
-    finalPayableAmount = patients[count].finalBill;
+    patients[count].finalBill = patients[count].grossTotal - patients[count].discount;
 
-     totalRevenue += finalPayableAmount;
 
-     totalDiscount += patients[count].discount;
+
 }
 
+void displayBill()
+{
+    int index;
+
+        index = patients[count].specialtyID - 1;
+
+            printf("\n\n\t SMART-HOSPITAL-ADMISSION & BILL \n\n");
+
+            printf("\tPatient ID               : PAT-%d\n\n", patients[count].id);
+
+            printf("\tPatient Name             : %s\n\n", patients[count].name);
+
+            printf("\tAge                      : %d\n\n", patients[count].age);
+
+            printf("\tSpecialty                : %d\n\n", specialties[index].specialtyID);
+
+
+            printf("\tUrgency Level            : %d\n\n", patients[count].triageLevel);
+
+            printf("\tBase Consultation Fee    : LKR %.2f\n\n",specialties[index].baseConsultationFee);
+
+            printf("\tEmergency Surcharge      : LKR %.2f\n\n ",patients[count].emergencySurcharge);
+
+            printf("\tWard Stay Cost           : LKR %.2f\n\n ",patients[count].wardCost);
+
+            printf("\tGross Total              : LKR %.2f\n\n ",patients[count].grossTotal);
+
+            printf("\tAGe Subsidy Discount     : LKR %.2f\n\n",patients[count].discount);
+
+            printf("\tFinal Payable Amount     : LKR %.2f\n\n ",patients[count].finalBill);
+
+            printf("\tEstimated Waiting Time   : %.2f\n\n",patients[count].waitingTime);
+
+}
 void registerPatient()
 {
      int bedNumber;
 
-    printf("Patient Registration");
+        printf("Patient Registration");
 
-    printf("Enter Patient name :  \n");
-     scanf(" %[^\n]",patients[count].name);
+        printf("Enter Patient name :  \n");
+            scanf(" %[^\n]",patients[count].name);
 
-    printf("Enter Patient ID :  \n");
-     scanf("%d",&patients[count].id);
+        printf("Enter Patient ID :  \n");
+            scanf("%d",&patients[count].id);
 
-    printf("Enter Patient Age  :  \n");
-     scanf("%d",&patients[count].age);
+        printf("Enter Patient Age  :  \n");
+            scanf("%d",&patients[count].age);
 
-    printf("Enter Triage Level(1=Normal,2=Urgent,3=Critical) :  \n");
-     scanf("%d",&patients[count].triageLevel);
+        printf("Enter Triage Level(1=Normal,2=Urgent,3=Critical) :  \n");
+            scanf("%d",&patients[count].triageLevel);
 
-    printf("Enter Specialty ID:  \n");
-     scanf("%d",&patients[count].specialtyID);
+        printf("Enter Specialty ID:  \n");
+            scanf("%d",&patients[count].specialtyID);
 
-    printf("Is admitted to the Ward ?(1=Yes,0=NO)  :  \n");
-     scanf("%d",&patients[count].isAdmitted);
+        printf("Is admitted to the Ward ?(1=Yes,0=NO)  :  \n");
+            scanf("%d",&patients[count].isAdmitted);
 
     if (patients[count].isAdmitted == 1)
     {
         printf("Enter the ward ID : \n");
-         scanf("%d",&patients[count].wardID);
+            scanf("%d",&patients[count].wardID);
 
         printf("Days Admitted(integer) : \n");
-         scanf("%d",&patients[count].daysAdmitted);
+            scanf("%d",&patients[count].daysAdmitted);
 
          bedNumber = allocateBed(patients[count].wardID);
 
@@ -244,12 +276,12 @@ void registerPatient()
         {
             patients[count].bedNumber = bedNumber;
 
-            printf("\nBed allocated successfully!\n");
-            printf("Bed Number: %d\n", bedNumber);
+        printf("\nBed allocated successfully!\n");
+        printf("Bed Number: %d\n", bedNumber);
         }
         else
         {
-            printf("\nNo available beds in this ward.\n");
+        printf("\nNo available beds in this ward.\n");
 
             patients[count].isAdmitted = 0;
             patients[count].wardID = 0;
@@ -279,6 +311,8 @@ int main()
     printf("\t--- WELCOME TO SMART-HOSPITAL-SYSTEM ---\n\n");
 
     registerPatient();
+
+    displayBill();
 
     count++;
 
