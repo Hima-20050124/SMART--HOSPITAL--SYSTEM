@@ -51,6 +51,7 @@ typedef struct {
     int bedNumber;
     int waitingTime;
     double finalBill;
+    double emergencySurcharge;
     };
 
     struct Patient patients[100];
@@ -117,7 +118,26 @@ void calculateWaitingTime()
     }
 }
 
+void calculateSurcharge()
+{
+    int index = patients[count].specialtyID - 1;
 
+    if (patients[count].triageLevel == 1)
+    {
+        patients[count].emergencySurcharge = 0;
+    }
+    else if (patients[count].triageLevel == 2)
+    {
+      patients[count].emergencySurcharge = 0.2*specialties[index].baseConsultationFee;
+    }
+    else
+    {
+        patients[count].emergencySurcharge = 0.5*specialties[index].baseConsultationFee;
+    }
+
+    printf("Emergency Surcharge: LKR %.2f\n",patients[count].emergencySurcharge);
+
+}
 
 void registerPatient()
 {
@@ -179,7 +199,7 @@ void registerPatient()
         patients[count].daysAdmitted = 0;
     }
     calculateWaitingTime();
-
+    calculateSurcharge();
 }
 
 
