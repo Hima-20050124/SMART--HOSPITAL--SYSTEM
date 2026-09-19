@@ -256,11 +256,21 @@ void priorityOfPatients()
     }
 }
 
+void displayRegisteredPatients()
+{
+        printf("       PATIENT PRIORITY ORDER\n");
+        printf("%-10s %-25s %-15s\n","ID", "Name", "Urgency Level");
+        for(int i=0; i< count ;i++)
+        {
+        printf("%-10d %-25s %-15d\n",patients[i].id, patients[i].name, patients[i].triageLevel);
+        }
+}
+
 void registerPatient()
 {
      int bedNumber;
 
-            printf("Patient Registration");
+            printf("\n\tPatient Registration\n");
 
             printf("Enter Patient name :  \n");
                 scanf(" %[^\n]",patients[count].name);
@@ -329,10 +339,16 @@ int main()
     printf("\t--- WELCOME TO SMART-HOSPITAL-SYSTEM ---\n\n");
 
     registerPatient();
-
-    displayBill();
-
     count++;
+
+    registerPatient();
+    count++;
+
+    priorityOfPatients();
+
+    displayRegisteredPatients();
+
+
 
 
     return 0;
