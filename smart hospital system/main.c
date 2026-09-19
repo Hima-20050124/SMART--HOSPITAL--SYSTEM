@@ -39,6 +39,24 @@ typedef struct {
 
      int bedOccupancy[4][20];
 
+     struct Patient{
+    char name[50];
+    int id;
+    int age;
+    int triageLevel;
+    int specialtyID;
+    int wardID;
+    int isAdmitted;
+    int daysAdmitted;
+
+    double finalBill;
+    };
+
+    struct Patient patients[100];
+
+    int count = 0;
+
+
      void initializeData()
 {
     for(int i=0 ; i<4 ;i++)
@@ -51,34 +69,46 @@ typedef struct {
 }
 
 
-void displayBedOccupancy()
+void registerPatient()
 {
-    int i, j;
 
-    printf("--- BED OCCUPANCY ---\n");
+    printf("Patient Registration");
 
-    for (i = 0; i < 4; i++)
+    printf("Enter Patient name :  \n");
+     scanf(" %[^\n]",patients[count].name);
+
+    printf("Enter Patient ID :  \n");
+     scanf("%d",&patients[count].id);
+
+    printf("Enter Patient Age  :  \n");
+     scanf("%d",&patients[count].age);
+
+    printf("Enter Triage Level(1=Normal,2=Urgent,3=Critical) :  \n");
+     scanf("%d",&patients[count].triageLevel);
+
+    printf("Enter Specialty ID:  \n");
+     scanf("%d",&patients[count].specialtyID);
+
+    printf("Is admitted to the Ward ?(1=Yes,0=NO)  :  \n");
+     scanf("%d",&patients[count].isAdmitted);
+
+    if (patients[count].isAdmitted == 1)
     {
-        printf("\nWard %d - %s\n",
-               wards[i].wardID,
-               wards[i].wardName);
+        printf("Enter the ward ID : \n");
+         scanf("%d",&patients[count].wardID);
 
-        for (j = 0; j < wards[i].totalBedCapacity; j++)
-        {
-            if (bedOccupancy[i][j] == 0)
-            {
-                printf("Bed %d : Available\n", j + 1);
-            }
-            else
-            {
-                printf("Bed %d : Occupied\n", j + 1);
-            }
-        }
+        printf("Days Admitted(integer) : \n");
+         scanf("%d",&patients[count].daysAdmitted);
     }
+
+    else
+    {
+       patients[count].wardID = 0;
+        patients[count].daysAdmitted = 0;
+    }
+
+
 }
-
-
-
 
 
 
@@ -88,7 +118,10 @@ int main()
 
     printf("\t--- WELCOME TO SMART-HOSPITAL-SYSTEM ---\n\n");
 
-     displayBedOccupancy();
+    registerPatient();
+
+    count++;
+
 
     return 0;
 }
