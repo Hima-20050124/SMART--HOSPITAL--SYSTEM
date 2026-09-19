@@ -49,10 +49,15 @@ typedef struct {
     int isAdmitted;
     int daysAdmitted;
     int bedNumber;
+    int waitingTime;
     double finalBill;
     };
 
     struct Patient patients[100];
+
+    int queueCount[4] = {0, 0, 0, 0};
+
+    int avgTimePerPatient[4] = {15, 20, 30, 30};
 
     int count = 0;
 
@@ -92,7 +97,25 @@ int allocateBed(int wardID)
     return -1;
 }
 
+void calculateWaitingTime()
+{
+    int index;
 
+    index = patients[count].specialtyID - 1;
+
+    if (index >= 0 && index < 4)
+    {
+        patients[count].waitingTime= queueCount[index] * avgTimePerPatient[index];
+
+        queueCount[index]++;
+        printf("Estimated Waiting Time: %d minutes\n",
+               patients[count].waitingTime);
+    }
+    else
+    {
+        patients[count].waitingTime = 0;
+    }
+}
 
 
 
@@ -155,7 +178,7 @@ void registerPatient()
        patients[count].wardID = 0;
         patients[count].daysAdmitted = 0;
     }
-
+    calculateWaitingTime();
 
 }
 
