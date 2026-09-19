@@ -115,13 +115,12 @@ void calculateWaitingTime()
         patients[count].waitingTime= queueCount[index] * avgTimePerPatient[index];
 
         queueCount[index]++;
-        printf("Estimated Waiting Time: %d minutes\n",
-               patients[count].waitingTime);
     }
     else
     {
         patients[count].waitingTime = 0;
     }
+     printf("\n\tEstimated Waiting Time: %d minutes\n",patients[count].waitingTime);
 }
 
 void calculateSurcharge()
@@ -141,7 +140,7 @@ void calculateSurcharge()
         patients[count].emergencySurcharge = 0.5*specialties[index].baseConsultationFee;
     }
 
-    printf("Emergency Surcharge: LKR %.2f\n",patients[count].emergencySurcharge);
+    printf("\n\tEmergency Surcharge: LKR %.2f\n",patients[count].emergencySurcharge);
 
 }
 
@@ -169,7 +168,7 @@ void calculateWardCost()
        patients[count].wardCost = 0;
     }
 
-     printf("Ward Stay Cost: LKR %.2f\n",patients[count].wardCost);
+     printf("\n\tWard Stay Cost: LKR %.2f\n",patients[count].wardCost);
 }
 
 
@@ -270,7 +269,7 @@ void registerPatient()
 {
      int bedNumber;
 
-            printf("\n\tPatient Registration\n");
+            printf("\n\tPatient Registration\n\n");
 
             printf("Enter Patient name :  \n");
                 scanf(" %[^\n]",patients[count].name);
@@ -284,7 +283,7 @@ void registerPatient()
             printf("Enter Triage Level(1=Normal,2=Urgent,3=Critical) :  \n");
                 scanf("%d",&patients[count].triageLevel);
 
-            printf("Enter Specialty ID:  \n");
+            printf("Enter Specialty ID(1-4):  \n");
                 scanf("%d",&patients[count].specialtyID);
 
             printf("Is admitted to the Ward ?(1=Yes,0=NO)  :  \n");
@@ -324,10 +323,7 @@ void registerPatient()
        patients[count].wardID = 0;
         patients[count].daysAdmitted = 0;
     }
-        calculateWaitingTime();
-        calculateSurcharge();
-        calculateWardCost();
-        calculateBill();
+
 }
 
 void generateReport()
@@ -416,22 +412,97 @@ void generateReport()
 
 int main()
 {
-    initializeData();
+        int choice;
 
-    printf("\t--- WELCOME TO SMART-HOSPITAL-SYSTEM ---\n");
+        initializeData();
 
-    registerPatient();
-    count++;
+        while (1)
+        {
+            printf("\n\n\t--- WELCOME TO SMART-HOSPITAL-SYSTEM ---\n\n");
 
-    registerPatient();
-    count++;
+            printf("\t 1.Register Patient\n\n");
 
-    priorityOfPatients();
+            printf("\t 2.Display Patients\n\n");
 
-    displayRegisteredPatients();
+            printf("\t 3.Waiting Time\n\n");
+
+            printf("\t 4.Display Surcharge\n\n");
+
+            printf("\t 5.Display Ward Cost\n\n");
+
+            printf("\t 6.Display Bill\n\n");
+
+            printf("\t 7.Generate Report\n\n");
+
+            printf("\t 8.Exit\n\n");
+
+            printf("\t Enter the choice :");
+
+            scanf("%d",&choice);
+
+            switch (choice)
+            {
+            case 1:
+
+                registerPatient();
 
 
-    generateReport();
+                count++;
+                break;
+
+            case 2:
+
+                priorityOfPatients();
+                displayRegisteredPatients();
+
+                break;
+
+
+            case 3:
+
+               calculateWaitingTime();
+
+                break;
+
+            case 4:
+
+               calculateSurcharge();
+
+                break;
+
+            case 5:
+
+                calculateWardCost();
+
+
+                break;
+
+            case 6:
+
+               calculateBill( );
+               displayBill();
+
+                break;
+
+            case 7:
+
+                 generateReport();
+
+                 break;
+
+
+            case 8:
+
+                 printf("Thank You!\n");
+
+                 return 0;
+
+            default:
+                printf("Invalid Choice! Please Try Again .\n");
+            }
+
+
+        }
 
     return 0;
 }
